@@ -83,7 +83,7 @@ module ROM
         #
         # @api public
         class Upsert < SQL::Commands::Create
-          adapter :sql
+          config.component.adapter = :sql
 
           defines :constraint, :conflict_target, :conflict_where, :update_statement, :update_where
 
