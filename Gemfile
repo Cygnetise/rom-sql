@@ -4,7 +4,7 @@ gemspec
 
 eval_gemfile "Gemfile.devtools"
 
-gem "rom", github: "rom-rb/rom", branch: "master"
+gem "rom", github: "rom-rb/rom", branch: "spec-suite-clean-up"
 
 gem "dry-configurable", github: "dry-rb/dry-configurable", branch: "master"
 gem "dry-container", github: "dry-rb/dry-container", branch: "master"
