@@ -102,7 +102,7 @@ module ROM
 end
 
 ROM.plugins do
-  adapter :sql do
+  adapter(:sql) do
     register :pg_streaming, ROM::Plugins::Relation::SQL::Postgres::Streaming, type: :relation
   end
 end

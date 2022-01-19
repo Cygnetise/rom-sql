@@ -30,18 +30,18 @@ RSpec.describe "PostgreSQL extension", :postgres do
       let(:people) { commands[:people] }
 
       it "inserts array values" do
-        people.create.call(name: "John Doe", tags: ["foo"])
+        people[:create].call(name: "John Doe", tags: ["foo"])
         expect(people_relation.to_a).to eql([id: 1, name: "John Doe", tags: ["foo"]])
       end
 
       it "inserts empty arrays" do
-        people.create.call(name: "John Doe", tags: [])
+        people[:create].call(name: "John Doe", tags: [])
         expect(people_relation.to_a).to eql([id: 1, name: "John Doe", tags: []])
         expect(people_relation.to_a[0][:tags].class).to be(Array)
       end
 
       it "inserts nil values" do
-        people.create.call(name: "John Doe", tags: nil)
+        people[:create].call(name: "John Doe", tags: nil)
         expect(people_relation.to_a).to eql([id: 1, name: "John Doe", tags: nil])
       end
     end
@@ -90,13 +90,13 @@ RSpec.describe "PostgreSQL extension", :postgres do
     let(:people) { commands[:people] }
 
     it "reads jsonb values as plain hashes" do
-      people.create.call(name: "John Doe", attributes: { foo: "bar" })
+      people[:create].call(name: "John Doe", attributes: { foo: "bar" })
       expect(people_relation.to_a).to eql([id: 1, name: "John Doe", attributes: { "foo" => "bar" }])
       expect(people_relation.to_a[0][:attributes].class).to be(Hash)
     end
 
     it "reads jsonb values as plain arrays" do
-      people.create.call(name: "John Doe", attributes: [foo: "bar"])
+      people[:create].call(name: "John Doe", attributes: [foo: "bar"])
       expect(people_relation.to_a).to eql([id: 1, name: "John Doe", attributes: ["foo" => "bar"]])
       expect(people_relation.to_a[0][:attributes].class).to be(Array)
     end

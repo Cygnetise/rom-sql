@@ -203,7 +203,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
         it "re-raises not-null constraint violation error with nil boolean" do
           puppies = commands[:puppies]
 
-          expect { puppies.create.call(name: "Charlie", cute: nil) }.
+          expect { puppies[:create].call(name: "Charlie", cute: nil) }.
             to raise_error(ROM::SQL::NotNullConstraintError)
         end
       end

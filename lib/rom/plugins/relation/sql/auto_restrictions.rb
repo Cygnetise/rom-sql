@@ -78,7 +78,7 @@ module ROM
 end
 
 ROM.plugins do
-  adapter :sql do
+  adapter(:sql) do
     register :auto_restrictions, ROM::Plugins::Relation::SQL::AutoRestrictions, type: :relation
   end
 end

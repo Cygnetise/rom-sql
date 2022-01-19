@@ -93,7 +93,7 @@ module ROM
 end
 
 ROM.plugins do
-  adapter :sql do
+  adapter(:sql) do
     register :instrumentation, ROM::Plugins::Relation::SQL::Instrumentation, type: :relation
   end
 end

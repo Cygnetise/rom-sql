@@ -9,7 +9,7 @@ require "rom/sql/plugin/pagination"
 require "rom/sql/plugin/schema_indexes"
 
 ROM.plugins do
-  adapter :sql do
+  adapter(:sql) do
     register :nullify, ROM::SQL::Plugin::Nullify, type: :relation
     register :pagination, ROM::SQL::Plugin::Pagination, type: :relation
     register :associates, ROM::SQL::Plugin::Associates, type: :command
