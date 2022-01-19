@@ -30,7 +30,7 @@ RSpec.shared_context "database setup" do
   let(:database_type) { conn.database_type }
   let(:inferrable_relations) { [] }
   let(:conf) { TestConfiguration.new(:sql, conn) { |config| config.plugin(:sql, relations: :auto_restrictions) } }
-  let(:container) { ROM.container(conf) }
+  let(:container) { ROM.runtime(conf) }
   let(:relations) { container.relations }
   let(:commands) { container.commands }
 

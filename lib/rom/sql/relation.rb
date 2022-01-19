@@ -34,7 +34,6 @@ module ROM
       configure(:schema) do |config|
         config.constant = SQL::Schema
         config.attr_class = SQL::Attribute
-        config.dsl_class = SQL::Schema::DSL
         config.inferrer = ROM::SQL::Schema::Inferrer.new.freeze
       end
 
@@ -88,11 +87,6 @@ module ROM
             end
           RUBY
         end
-      end
-
-      # @api private
-      def self.associations
-        schema.associations
       end
 
       # @api private

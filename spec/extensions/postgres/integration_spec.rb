@@ -47,8 +47,8 @@ RSpec.describe "PostgreSQL extension", :postgres do
     end
 
     describe "using retrurning" do
-      let(:create_person) { commands[:people].create }
-      let(:update_person) { commands[:people].update }
+      let(:create_person) { commands[:people][:create] }
+      let(:update_person) { commands[:people][:update] }
       let(:composite_relation) { people_relation >> -> r { r.map { |x| { name: x.fetch(:name).upcase } } } }
 
       context "with pipeline" do

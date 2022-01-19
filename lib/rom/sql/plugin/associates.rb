@@ -35,11 +35,9 @@ module ROM
             extend ClassMethods
             include InstanceMethods
 
-            defines :associations
+            setting :associations, default: Hash.new, reader: true
 
-            associations Hash.new
-
-            option :associations, default: -> { self.class.associations }
+            option :associations, default: -> { klass.config.associations }
             option :configured_associations, default: -> { EMPTY_ARRAY }
           end
           super
@@ -129,7 +127,9 @@ module ROM
                     "#{name} association is already defined for #{self.class}"
             end
 
-            associations(associations.merge(name => options))
+            associations[name] = options
+
+            self
           end
         end
 

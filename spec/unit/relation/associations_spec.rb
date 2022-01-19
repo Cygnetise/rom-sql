@@ -1,5 +1,5 @@
 RSpec.describe ROM::Relation, "#associations" do
-  subject(:relation) { container.relations.users }
+  subject(:relation) { container.relations[:users] }
 
   include_context "users and tasks"
 
@@ -7,10 +7,10 @@ RSpec.describe ROM::Relation, "#associations" do
     context "with schema" do
       it "returns configured primary key from the schema" do
         conf.relation(:users) do
-          schema(infer: true) do
-            associations do
-              has_many :tasks
-            end
+          schema(infer: true)
+
+          associations do
+            has_many :tasks
           end
         end
 

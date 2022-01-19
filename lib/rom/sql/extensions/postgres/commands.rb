@@ -85,27 +85,31 @@ module ROM
         class Upsert < SQL::Commands::Create
           config.component.adapter = :sql
 
-          defines :constraint, :conflict_target, :conflict_where, :update_statement, :update_where
+          setting :constraint
+          setting :conflict_target
+          setting :conflict_where
+          setting :update_statement
+          setting :update_where
 
           # @!attribute [r] constraint
           #  @return [Symbol] the name of the constraint expected to be violated
-          option :constraint, default: -> { self.class.constraint }
+          option :constraint, default: -> { self.config.constraint }
 
           # @!attribute [r] conflict_target
           #  @return [Object] the column or expression to handle a violation on
-          option :conflict_target, default: -> { self.class.conflict_target }
+          option :conflict_target, default: -> { self.config.conflict_target }
 
           # @!attribute [r] conflict_where
           #  @return [Object] the index filter, when using a partial index to determine uniqueness
-          option :conflict_where, default: -> { self.class.conflict_where }
+          option :conflict_where, default: -> { self.config.conflict_where }
 
           # @!attribute [r] update_statement
           #  @return [Object] the update statement which will be executed in case of a violation
-          option :update_statement, default: -> { self.class.update_statement }
+          option :update_statement, default: -> { self.config.update_statement }
 
           # @!attribute [r] update_where
           #  @return [Object] the WHERE clause to be added to the update
-          option :update_where, default: -> { self.class.update_where }
+          option :update_where, default: -> { self.config.update_where }
 
           # Tries to insert provided tuples and do an update (or nothing)
           # when the inserted record violates a unique constraint and hence

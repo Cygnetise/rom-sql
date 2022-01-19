@@ -14,39 +14,39 @@ RSpec.describe "Plugins / :associates / with many-to-many", :sqlite, seeds: fals
 
   before do
     conf.relation(:tasks) do
-      schema(infer: true) do
-        associations do
-          has_many :tags, through: :task_tags
-        end
+      schema(infer: true)
+
+      associations do
+        has_many :tags, through: :task_tags
       end
     end
 
     conf.relation(:task_tags) do
-      schema(infer: true) do
-        associations do
-          belongs_to :tasks, as: :task
-          belongs_to :tags, as: :tag
-        end
+      schema(infer: true)
+
+      associations do
+        belongs_to :tasks, as: :task
+        belongs_to :tags, as: :tag
       end
     end
 
     conf.relation(:tags) do
-      schema(infer: true) do
-        associations do
-          has_many :tasks, through: :task_tags
-        end
+      schema(infer: true)
+
+      associations do
+        has_many :tasks, through: :task_tags
       end
     end
 
     conf.commands(:tags) do
       define(:create) do
-        result :many
+        config.result = :many
       end
     end
 
     conf.commands(:tasks) do
       define(:create) do
-        result :many
+        config.result = :many
         associates :tags
       end
     end

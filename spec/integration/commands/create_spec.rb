@@ -39,11 +39,11 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
       define(:create) do
         input Test::Params
 
-        result :one
+        config.result = :one
       end
 
       define(:create_many, type: :create) do
-        result :many
+        config.result = :many
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
             }
           rescue ROM::SQL::Error
           end
-        }.to_not change { container.relations.users.count }
+        }.to_not change { container.relations[:users].count }
       end
 
       it "creates nothing if rollback was raised" do
@@ -107,7 +107,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
           }
 
           expect(result).to be(nil)
-        }.to_not change { container.relations.users.count }
+        }.to_not change { container.relations[:users].count }
       end
 
       it "creates nothing if constraint error was raised" do
@@ -124,7 +124,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
             expect(error).to be_instance_of(ROM::SQL::UniqueConstraintError)
             expect(passed).to be(false)
           end
-        }.to_not change { container.relations.users.count }
+        }.to_not change { container.relations[:users].count }
       end
 
       it "creates nothing if anything was raised in any nested transaction" do
@@ -139,7 +139,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
               }
             }
           }.to raise_error(Exception)
-        }.to_not change { container.relations.users.count }
+        }.to_not change { container.relations[:users].count }
       end
     end
 
@@ -153,7 +153,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
 
       conf.commands(:users_with_schema) do
         define(:create) do
-          result :one
+          config.result = :one
         end
       end
 
@@ -269,7 +269,7 @@ RSpec.describe "Commands / Create", :postgres, seeds: false do
           end
 
           conf.commands(:user_group) do
-            define(:create) { result :one }
+            define(:create) { config.result = :one }
           end
         end
 

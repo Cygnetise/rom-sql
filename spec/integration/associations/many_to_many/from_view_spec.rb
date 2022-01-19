@@ -41,21 +41,21 @@ RSpec.describe ROM::SQL::Associations::ManyToMany, "#call" do
       end
 
       conf.relation(:puzzle_solvers) do
-        schema(infer: true) do
-          associations do
-            belongs_to :user
-            belongs_to :puzzle
-          end
+        schema(infer: true)
+
+        associations do
+          belongs_to :user
+          belongs_to :puzzle
         end
       end
 
       conf.relation(:users) do
-        schema(infer: true) do
-          associations do
-            has_many :puzzle_solvers
-            has_many :puzzles, through: :puzzle_solvers
-            has_many :puzzles, through: :puzzle_solvers, as: :solved_puzzles, view: :solved
-          end
+        schema(infer: true)
+
+        associations do
+          has_many :puzzle_solvers
+          has_many :puzzles, through: :puzzle_solvers
+          has_many :puzzles, through: :puzzle_solvers, as: :solved_puzzles, view: :solved
         end
       end
 

@@ -21,11 +21,11 @@ RSpec.describe ROM::SQL::Associations::OneToMany, "#call" do
       end
 
       conf.relation(:users) do
-        schema(infer: true) do
-          associations do
-            has_many :puzzles
-            has_many :puzzles, as: :solved_puzzles, view: :solved
-          end
+        schema(infer: true)
+
+        associations do
+          has_many :puzzles
+          has_many :puzzles, as: :solved_puzzles, view: :solved
         end
       end
 

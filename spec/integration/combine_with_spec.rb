@@ -47,14 +47,14 @@ RSpec.describe "Eager loading" do
     with_adapters do
       before do
         conf.relation(:users) do
-          schema infer: true do
-            associations do
-              has_many :articles, override: true, view: :for_users,
-                       combine_keys: { name: :author_name }
+          schema infer: true
 
-              has_many :articles, as: :drafts, override: true, view: :with_drafts,
-                       combine_keys: { name: :author_name }
-            end
+          associations do
+            has_many :articles, override: true, view: :for_users,
+                     combine_keys: { name: :author_name }
+
+            has_many :articles, as: :drafts, override: true, view: :with_drafts,
+                     combine_keys: { name: :author_name }
           end
 
           def by_name(name)
@@ -63,10 +63,10 @@ RSpec.describe "Eager loading" do
         end
 
         conf.relation(:articles) do
-          schema infer: true do
-            associations do
-              belongs_to :users, foreign_key: :author_name
-            end
+          schema infer: true
+
+          associations do
+            belongs_to :users, foreign_key: :author_name
           end
 
           def for_users(_assoc, users)
