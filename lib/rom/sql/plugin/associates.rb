@@ -37,7 +37,8 @@ module ROM
 
             setting :associations, default: Hash.new, reader: true
 
-            option :associations, default: -> { klass.config.associations }
+            option :associations, default: -> { self.class.associations }
+
             option :configured_associations, default: -> { EMPTY_ARRAY }
           end
           super
