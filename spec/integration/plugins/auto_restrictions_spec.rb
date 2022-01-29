@@ -57,6 +57,8 @@ RSpec.describe "Plugins / :auto_restrictions", seeds: true do
 
     context "with explicit schema" do
       before do
+        pending "TODO: reimplement indexes plugin"
+
         conf.relation(:tasks) do
           schema do
             attribute :id, ROM::SQL::Types::Serial
@@ -84,6 +86,8 @@ RSpec.describe "Plugins / :auto_restrictions", seeds: true do
       # but it seems to be too much from my POV, better leave it to the user
       # Note that this can be enabled later
       it "skips partial indexes" do
+        pending "TODO: reimplement indexes plugin"
+
         conf.relation(:tasks) do
           schema do
             attribute :id, ROM::SQL::Types::Serial

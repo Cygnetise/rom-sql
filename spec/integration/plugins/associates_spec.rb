@@ -196,7 +196,7 @@ RSpec.describe "Plugins / :associates", seeds: false do
   with_adapters :sqlite do
     context "with Update command" do
       subject(:command) do
-        container.commands[:tasks][:update].with_association(:user).by_pk(jane_task[:id])
+        container.commands[:tasks][:update].with_association(:user).new(tasks.by_pk(jane_task[:id]))
       end
 
       let(:john) do

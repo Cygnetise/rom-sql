@@ -24,6 +24,8 @@ RSpec.describe ROM::SQL::Gateway, :postgres, :helpers, skip_tables: true do
 
   context "creating from scratch" do
     before do
+      pending "TODO: reimplement indexes plugin"
+
       conf.relation(:users) do
         schema do
           attribute :id,    ROM::SQL::Types::Serial
@@ -60,6 +62,8 @@ end
   context "alter table" do
     context "changing columns" do
       before do
+        pending "TODO: reimplement indexes plugin"
+
         conn.create_table(:users) do
           primary_key :id
           column :name, String

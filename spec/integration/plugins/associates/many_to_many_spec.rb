@@ -1,8 +1,8 @@
 RSpec.describe "Plugins / :associates / with many-to-many", :sqlite, seeds: false do
   include_context "users and tasks"
 
-  let(:create_tag) { tag_commands.create }
-  let(:create_task) { task_commands.create }
+  let(:create_tag) { tag_commands[:create] }
+  let(:create_task) { task_commands[:create] }
 
   let(:jane) do
     users.by_pk(users.insert(name: "Jane")).one

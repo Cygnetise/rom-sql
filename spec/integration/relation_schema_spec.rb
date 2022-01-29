@@ -125,7 +125,9 @@ RSpec.describe "Inferring schema from database" do
           end
         end
 
-        assoc = ROM::Associations::Definitions::OneToOneThrough.new(:users, :cards, through: :accounts)
+        assoc = ROM::Associations::Definitions::OneToOneThrough.new(
+          :users, :cards, through: :accounts
+        )
 
         expect(user_associations[:cards].definition).to eql(assoc)
       end
@@ -218,6 +220,7 @@ RSpec.describe "Inferring schema from database" do
 
         config.relation(:posts) { schema(infer: true) }
         config.relation(:users) { schema(infer: true) }
+
         config.register_relation(Test::Tags)
 
         tags = container.relations[:tags].schema
@@ -231,8 +234,10 @@ RSpec.describe "Inferring schema from database" do
       end
     end
 
-    context "defining indexes", :helpers do |ctx|
+    context "defining indexes", :helpers do |_ctx|
       it "allows defining indexes" do
+        pending "TODO: reimplement indexes plugin"
+
         class Test::Tags < ROM::Relation[:sql]
           schema(:tags) do
             attribute :id,         Types::Serial
@@ -252,9 +257,9 @@ RSpec.describe "Inferring schema from database" do
         conf.register_relation(Test::Tags)
         schema = container.relations[:tags].schema
 
-        expect(schema.indexes.to_a).
-          to contain_exactly(
-               ROM::SQL::Index.new([define_attribute(:name, :String, source: schema.name)]),
+        expect(schema.indexes.to_a)
+          .to contain_exactly(
+            ROM::SQL::Index.new([define_attribute(:name, :String, source: schema.name)]),
                ROM::SQL::Index.new(
                  [define_attribute(:created_at, :Time, source: schema.name),
                   define_attribute(:name, :String, source: schema.name)]
@@ -268,11 +273,13 @@ RSpec.describe "Inferring schema from database" do
                  name: :unique_date,
                  unique: true
                )
-             )
+          )
       end
 
       if metadata[:postgres]
         it "can provide index type" do
+          pending "TODO: reimplement indexes plugin"
+
           class Test::Tags < ROM::Relation[:sql]
             schema(:tags) do
               attribute :id, Types::Serial
@@ -289,10 +296,11 @@ RSpec.describe "Inferring schema from database" do
           index = schema.indexes.first
 
           expect(index).to eql(
-                             ROM::SQL::Index.new(
-                               [define_attribute(:name, :String, source: schema.name)],
-                               type: :gist)
-                           )
+            ROM::SQL::Index.new(
+              [define_attribute(:name, :String, source: schema.name)],
+              type: :gist
+            )
+          )
 
           expect(index.type).to eql(:gist)
         end

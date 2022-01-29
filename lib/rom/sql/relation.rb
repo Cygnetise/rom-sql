@@ -41,7 +41,8 @@ module ROM
         table = opts[:from].first
 
         if db.table_exists?(table)
-          select(*schema.qualified_projection).order(*schema.project(*schema.primary_key_names).qualified)
+          select(*schema.qualified_projection)
+            .order(*schema.project(*schema.primary_key_names).qualified)
         else
           self
         end

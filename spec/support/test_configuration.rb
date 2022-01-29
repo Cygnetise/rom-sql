@@ -14,4 +14,8 @@ class TestConfiguration < ROM::Runtime
 
     super(name, **opts, &block)
   end
+
+  def gateways
+    resolver.gateways
+  end
 end
