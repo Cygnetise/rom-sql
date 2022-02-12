@@ -141,7 +141,7 @@ module ROM
       end
 
       # @api public
-      def auto_migrate!(runtime, options = EMPTY_HASH)
+      def auto_migrate!(setup, options = EMPTY_HASH)
         migrator.auto_migrate!(self, setup.registry.relations.map(&:schema), options)
       end
 
