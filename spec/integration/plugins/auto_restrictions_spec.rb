@@ -26,13 +26,13 @@ RSpec.describe "Plugins / :auto_restrictions", seeds: true do
 
     context "with two containers" do
       let(:confs) do
-        { one: ROM::Runtime.new(:sql, conn),
-          two: ROM::Runtime.new(:sql, conn) }
+        { one: ROM::Setup.new(:sql, conn),
+          two: ROM::Setup.new(:sql, conn) }
       end
 
       let(:containers) do
-        { one: ROM.runtime(confs[:one]),
-          two: ROM.runtime(confs[:two]) }
+        { one: ROM.setup(confs[:one]),
+          two: ROM.setup(confs[:two]) }
       end
 
       before do

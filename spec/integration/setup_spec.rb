@@ -1,9 +1,9 @@
-RSpec.describe "ROM.runtime" do
+RSpec.describe "ROM.setup" do
   include_context "database setup"
 
   with_adapters do
     let(:rom) do
-      ROM.runtime(:sql, uri) do |conf|
+      ROM.setup(:sql, uri) do |conf|
         conf.default.create_table(:dragons) do
           primary_key :id
           column :name, String

@@ -20,7 +20,7 @@ RSpec.describe "Inferring schema from database" do
 
     context "defining associations", seeds: false do
       let(:config) { TestConfiguration.new(:sql, conn) }
-      let(:container) { ROM.runtime(config) }
+      let(:container) { ROM.setup(config) }
 
       let(:user_associations) do
         config.relation(:accounts) { schema(infer: true) }

@@ -1,6 +1,6 @@
-require "rom/runtime"
+require "rom/setup"
 
-class TestConfiguration < ROM::Runtime
+class TestConfiguration < ROM::Setup
   def relation(name, **opts, &block)
     if components.relations.map(&:id).include?(name)
       components.relations.delete_if do |component|
@@ -16,6 +16,6 @@ class TestConfiguration < ROM::Runtime
   end
 
   def gateways
-    resolver.gateways
+    registry.gateways
   end
 end

@@ -36,7 +36,7 @@ RSpec.shared_context "database setup" do
     end
   end
 
-  let(:container) { ROM.runtime(conf) }
+  let(:container) { ROM.setup(conf) }
   let(:relations) { container.relations }
   let(:commands) { container.commands }
 

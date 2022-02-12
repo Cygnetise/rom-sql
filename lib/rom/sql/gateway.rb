@@ -5,7 +5,7 @@ require "sequel/core"
 
 require "dry/core/constants"
 
-require "rom/runtime"
+require "rom/setup"
 require "rom/types"
 require "rom/gateway"
 require "rom/sql/migration"
@@ -250,5 +250,5 @@ module ROM
     end
   end
 
-  Runtime.register_event("configuration.gateway.connected")
+  Setup.register_event("configuration.gateway.connected")
 end
