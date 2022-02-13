@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rom/support/notifications"
+require "dry/effects"
 
 module ROM
   module Plugins
@@ -27,15 +27,15 @@ module ROM
         #
         # @api public
         module AutoRestrictions
-          extend Notifications::Listener
+          extend Dry::Effects.Reader(:registry)
 
-          subscribe("configuration.relations.schema.set", adapter: :sql) do |event|
-            schema = event[:schema]
-            relation = event[:relation]
+          # @api private
+          def self.apply(target, **)
+            schema = registry.schemas[target.config.component.dataset]
 
             methods, mod = AutoRestrictions.restriction_methods(schema)
-            relation.include(mod)
-            methods.each { |meth| relation.auto_curry(meth) }
+            target.include(mod)
+            methods.each { |meth| target.auto_curry(meth) }
           end
 
           # @api private
