@@ -110,6 +110,9 @@ end
 require "dry/core/deprecations"
 Dry::Core::Deprecations.set_logger!(root.join("../log/deprecations.log"))
 
+require "dry/effects"
+Dry::Effects.load_extensions(:rspec)
+
 ROM::SQL.load_extensions(:postgres, :sqlite)
 
 require "dry-types"
