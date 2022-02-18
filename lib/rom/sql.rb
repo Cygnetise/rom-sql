@@ -18,3 +18,6 @@ if defined?(Rails)
 end
 
 ROM.register_adapter(:sql, ROM::SQL)
+
+# Enable :default_view for all SQL relations
+ROM::SQL::Gateway.plugin(relations: :default_views)

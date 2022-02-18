@@ -12,7 +12,8 @@ module ROM
 
           # @api private
           def self.apply(target, **)
-            define_default_views!(target, registry.schemas[target.config.component.dataset])
+            schema = registry.schemas[target.config.component.dataset]
+            define_default_views!(target, schema)
           end
 
           # @api private

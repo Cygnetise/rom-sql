@@ -19,11 +19,6 @@ module ROM
     class Relation < ROM::Relation
       extend Dry::Core::ClassAttributes # TODO: only needed by pagination plugin
 
-      # Enable :default_view for all SQL relations
-      plugin(:sql, relations: :default_views) do |config|
-        config.auto_apply = false
-      end
-
       include SQL
       include Writing
       include Reading
