@@ -32,13 +32,16 @@ module ROM
           # @api private
           def self.apply(target, **)
             schema = registry.schemas[target.config.component.dataset]
-
             methods, mod = AutoRestrictions.restriction_methods(schema)
-            target.include(mod)
-            methods.each { |meth| target.auto_curry(meth) }
+
+            target.class_eval do
+              include(mod)
+              methods.each { |meth| auto_curry(meth) }
+            end
           end
 
           # @api private
+          # rubocop:disable Metrics/AbcSize
           def self.restriction_methods(schema)
             mod = Module.new
 
@@ -71,6 +74,7 @@ module ROM
 
             [methods, mod]
           end
+          # rubocop:enable Metrics/AbcSize
         end
       end
     end
