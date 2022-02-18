@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "dry/effects"
+
 module ROM
   module Plugins
     module Relation
@@ -26,19 +28,14 @@ module ROM
         #
         # @api public
         module Instrumentation
-          extend Notifications::Listener
+          extend Dry::Effects.Reader(:registry)
 
-          subscribe("configuration.relations.object.registered") do |event|
-            relation = event[:relation]
+          def self.apply(target, notifications:, **)
+            db = registry.gateways[target.config.component.gateway].connection
 
-            if relation.respond_to?(:notifications)
-              db = relation.dataset.db
+            return if db.respond_to?(:rom_instrumentation?)
 
-              if !db.respond_to?(:rom_instrumentation?)
-                mod = Instrumenter.new(db.database_type, relation.notifications)
-                db.extend(mod)
-              end
-            end
+            db.extend(Instrumenter.new(db.database_type, notifications))
           end
 
           # This stateful module is used to extend database connection objects
@@ -57,6 +54,7 @@ module ROM
 
             # @api private
             def initialize(name, notifications)
+              super()
               @name = name
               @notifications = notifications
               define_log_connection_yield
