@@ -5,7 +5,9 @@ RSpec.describe "Inferring schema from database" do
   with_adapters do
     context "when database schema exists" do
       it "infers the schema from the database relations" do
-        conf.relation(:users)
+        conf.relation(:users) do
+          schema(infer: true)
+        end
 
         expect(container.relations[:users].to_a)
           .to eql(container.gateways[:default][:users].to_a)
