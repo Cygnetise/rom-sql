@@ -4,6 +4,8 @@ RSpec.describe "Eager loading" do
   with_adapters do
     before do
       conf.relation(:users) do
+        schema(infer: true)
+
         config.auto_map = false
 
         def by_name(name)
@@ -12,6 +14,8 @@ RSpec.describe "Eager loading" do
       end
 
       conf.relation(:tasks) do
+        schema(infer: true)
+
         config.auto_map = false
 
         def for_users(users)
@@ -20,6 +24,8 @@ RSpec.describe "Eager loading" do
       end
 
       conf.relation(:tags) do
+        schema(infer: true)
+
         config.auto_map = false
 
         def for_tasks(tasks)
@@ -47,7 +53,7 @@ RSpec.describe "Eager loading" do
     with_adapters do
       before do
         conf.relation(:users) do
-          schema infer: true
+          schema(infer: true)
 
           associations do
             has_many :articles, override: true, view: :for_users, combine_keys: {name: :author_name}
@@ -62,7 +68,7 @@ RSpec.describe "Eager loading" do
         end
 
         conf.relation(:articles) do
-          schema infer: true
+          schema(infer: true)
 
           associations do
             belongs_to :users, foreign_key: :author_name
