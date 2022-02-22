@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe "Commands / Postgres / Upsert", :postgres, seeds: false do
   subject(:command) { task_commands[:create_or_update] }
 
@@ -12,8 +14,13 @@ RSpec.describe "Commands / Postgres / Upsert", :postgres, seeds: false do
   end
 
   describe "#call" do
-    let(:task) { { title: "task 1", user_id: 1 } }
-    let(:excluded) { task.merge(user_id: 3) }
+    let(:task) do
+      {title: "task 1", user_id: 1}
+    end
+
+    let(:excluded) do
+      task.merge(user_id: 3)
+    end
 
     before do
       command_config = self.command_config
@@ -28,10 +35,12 @@ RSpec.describe "Commands / Postgres / Upsert", :postgres, seeds: false do
       end
     end
 
-    before { command.relation.upsert(task) }
+    before do
+      command.relation.upsert(task)
+    end
 
     context "on conflict do nothing" do
-      let(:command_config) { -> { } }
+      let(:command_config) { -> {} }
 
       it "returns nil" do
         expect(command.call(excluded)).to be nil
@@ -115,4 +124,4 @@ RSpec.describe "Commands / Postgres / Upsert", :postgres, seeds: false do
       end
     end
   end
-end if PG_LTE_95
+end
