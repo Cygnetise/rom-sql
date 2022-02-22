@@ -17,10 +17,6 @@ RSpec.describe "Plugins / :auto_restrictions", seeds: true do
     end
 
     context "with an inferred schema" do
-      before do
-        conf.plugin(:sql, relations: :auto_restrictions)
-      end
-
       include_context "auto-generated restriction view"
     end
 
