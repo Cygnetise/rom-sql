@@ -214,6 +214,26 @@ module ROM
         connection.run(statement)
       end
 
+      # Build an SQL-specific command
+      #
+      # @return [Command]
+      #
+      # @api public
+      def command(klass, relation:, **opts)
+        return super unless relation.dataset.db.database_type == :postgres
+
+        ext =
+          if klass < Commands::Create
+            Postgres::Commands::Create
+          elsif klass < Commands::Update
+            Postgres::Commands::Update
+          end
+
+        klass.include(ext) if ext
+
+        super
+      end
+
       private
 
       # Connect to database or reuse established connection instance
