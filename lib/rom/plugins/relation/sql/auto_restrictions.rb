@@ -31,8 +31,7 @@ module ROM
 
           # @api private
           def self.apply(target, **)
-            schema = registry.schemas[target.config.component.dataset]
-            methods, mod = AutoRestrictions.restriction_methods(schema)
+            methods, mod = AutoRestrictions.restriction_methods(registry.schemas.canonical(target))
 
             target.class_eval do
               include(mod)
