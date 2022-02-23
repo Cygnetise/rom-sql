@@ -1,4 +1,6 @@
-require "dry-struct"
+# frozen_string_literal: true
+
+require "dry/struct"
 
 RSpec.describe "Commands / Create", :postgres, seeds: false do
   include_context "relations"
