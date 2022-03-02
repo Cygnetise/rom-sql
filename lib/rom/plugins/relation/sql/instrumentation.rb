@@ -31,11 +31,11 @@ module ROM
           subscribe('configuration.relations.registry.created') do |event|
             registry = event[:registry]
 
-            relations = registry.select { |_, r| r.adapter == :sql && r.respond_to?(:notifications) }.to_h
-            db_notifications = relations.values.map { |r| [r.dataset.db, r.notifications] }.uniq.to_h
+            relations = registry.select { |_, r| r.adapter == :sql && r.respond_to?(:__notifications) }.to_h
+            db_notifications = relations.values.map { |r| [r.dataset.db, r.__notifications] }.uniq.to_h
 
-            db_notifications.each do |db, notifications|
-              instrumenter = Instrumenter.new(db.database_type, notifications)
+            db_notifications.each do |db, __notifications|
+              instrumenter = Instrumenter.new(db.database_type, __notifications)
               db.extend(instrumenter)
             end
           end
@@ -50,14 +50,14 @@ module ROM
             #   @return [Symbol] database type
             attr_reader :name
 
-            # @!attribute [r] notifications
+            # @!attribute [r] __notifications
             #   @return [Object] any object that responds to `instrument`
-            attr_reader :notifications
+            attr_reader :__notifications
 
             # @api private
-            def initialize(name, notifications)
+            def initialize(name, __notifications)
               @name = name
-              @notifications = notifications
+              @__notifications = __notifications
               define_log_connection_yield
             end
 
@@ -66,10 +66,10 @@ module ROM
             # @api private
             def define_log_connection_yield
               name = self.name
-              notifications = self.notifications
+              __notifications = self.__notifications
 
               define_method(:log_connection_yield) do |*args, &block|
-                notifications.instrument(:sql, name: name, query: args[0]) do
+                __notifications.instrument(:sql, name: name, query: args[0]) do
                   super(*args, &block)
                 end
               end
@@ -81,7 +81,7 @@ module ROM
           # @api private
           def self.included(klass)
             super
-            klass.option :notifications
+            klass.option :__notifications
           end
         end
       end
