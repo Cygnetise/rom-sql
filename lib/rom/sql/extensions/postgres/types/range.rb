@@ -78,11 +78,11 @@ module ROM
         def self.range(name, read_type)
           Type(name) do
             type = SQL::Types.Nominal(Values::Range).constructor do |range|
-              format('%s%s,%s%s',
-                     range.exclude_begin? ? :'(' : :'[',
-                     range.lower,
-                     range.upper,
-                     range.exclude_end? ? :')' : :']')
+              Sequel::Postgres::PGRange.new(
+                range.lower,
+                range.upper,
+                exclude_begin: range.exclude_begin?,
+                exclude_end: range.exclude_end?)
             end
 
             type.meta(read: read_type)
